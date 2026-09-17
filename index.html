@@ -1,488 +1,717 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0,
-        maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snap+ Services</title>
 
-  <meta name="theme-color" content="#050505">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
-  <title>Snap+ Services</title>
+html{
+    scroll-behavior:smooth;
+}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+body{
+    background:#050505;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(255,252,0,.15),transparent 30%),
+        radial-gradient(circle at 85% 80%,rgba(255,252,0,.10),transparent 30%),
+        #050505;
+}
+
+.glow{
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:#fffc00;
+    filter:blur(120px);
+    opacity:.10;
+    border-radius:50%;
+    animation:float 8s infinite alternate ease-in-out;
+}
+
+.glow.one{
+    top:10%;
+    left:-100px;
+}
+
+.glow.two{
+    right:-100px;
+    bottom:10%;
+    animation-delay:2s;
+}
+
+@keyframes float{
+    from{transform:translate(0,0)}
+    to{transform:translate(80px,-50px)}
+}
+
+/* HEADER */
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:17px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(5,5,5,.65);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    z-index:1000;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    color:#fffc00;
+}
+
+.logo span{
+    color:#fff;
+}
+
+.status{
+    font-size:10px;
+    font-weight:bold;
+    color:#fffc00;
+    border:1px solid rgba(255,252,0,.5);
+    padding:7px 12px;
+    border-radius:30px;
+}
+
+/* HERO */
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:120px 20px 70px;
+}
+
+.hero-content{
+    width:100%;
+    max-width:850px;
+}
+
+.snap-icon{
+    width:82px;
+    height:82px;
+    margin:0 auto 25px;
+    border-radius:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    background:#fffc00;
+    box-shadow:
+        0 0 25px rgba(255,252,0,.25),
+        0 0 80px rgba(255,252,0,.08);
+    animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:translateY(-7px);
+        box-shadow:0 0 40px rgba(255,252,0,.35);
     }
+}
 
-    html, body {
-      width: 100%;
-      min-height: 100%;
-    }
+.hero h1{
+    font-size:clamp(48px,12vw,90px);
+    line-height:.95;
+    letter-spacing:-4px;
+    margin-bottom:22px;
+}
 
-    body {
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont,
-                   "SF Pro Display", Arial, sans-serif;
+.hero h1 span{
+    color:#fffc00;
+}
 
-      color: white;
-      overflow-x: hidden;
+.hero p{
+    max-width:600px;
+    margin:auto;
+    color:#999;
+    font-size:17px;
+    line-height:1.7;
+}
 
-      background:
-        radial-gradient(circle at 20% 10%,
-          rgba(255, 252, 0, .18),
-          transparent 28%),
+/* BUTTONS */
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:32px;
+}
 
-        radial-gradient(circle at 90% 80%,
-          rgba(255, 200, 0, .14),
-          transparent 30%),
+.btn{
+    padding:15px 25px;
+    border-radius:15px;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
 
-        linear-gradient(145deg,
-          #020202,
-          #0c0c0c 45%,
-          #181600);
-    }
+.btn:hover{
+    transform:translateY(-4px);
+}
 
-    /* خلفية متحركة */
-    .background {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 0;
-    }
+.primary{
+    background:#fffc00;
+    color:#000;
+    box-shadow:0 10px 35px rgba(255,252,0,.15);
+}
 
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(50px);
-      opacity: .25;
-      animation: float 8s ease-in-out infinite;
-    }
+.secondary{
+    color:#fff;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+}
 
-    .orb.one {
-      width: 180px;
-      height: 180px;
-      background: #fffc00;
-      top: 5%;
-      left: -60px;
-    }
+/* SECTION */
+section{
+    padding:90px 6%;
+}
 
-    .orb.two {
-      width: 230px;
-      height: 230px;
-      background: #ffd000;
-      bottom: 5%;
-      right: -100px;
-      animation-delay: -3s;
-    }
+.title{
+    text-align:center;
+    margin-bottom:45px;
+}
 
-    .orb.three {
-      width: 120px;
-      height: 120px;
-      background: #fff700;
-      top: 45%;
-      right: 10%;
-      animation-delay: -5s;
-    }
+.title h2{
+    font-size:38px;
+    margin-bottom:10px;
+}
 
-    @keyframes float {
-      0%, 100% {
-        transform: translate(0, 0);
-      }
+.title p{
+    color:#777;
+}
 
-      50% {
-        transform: translate(20px, -25px);
-      }
-    }
+/* PRICING */
+.pricing{
+    max-width:900px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
+}
 
-    .page {
-      position: relative;
-      z-index: 2;
-
-      width: 100%;
-      max-width: 480px;
-
-      margin: auto;
-
-      padding:
-        calc(35px + env(safe-area-inset-top))
-        22px
-        calc(30px + env(safe-area-inset-bottom));
-
-      text-align: center;
-    }
-
-    /* الشعار */
-    .logo {
-      width: 105px;
-      height: 105px;
-
-      margin: 15px auto 20px;
-
-      border-radius: 32px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #fffc00;
-
-      color: #050505;
-
-      font-size: 36px;
-      font-weight: 900;
-
-      transform: rotate(-4deg);
-
-      border: 4px solid white;
-
-      box-shadow:
-        0 0 0 6px rgba(255,252,0,.10),
-        0 0 35px rgba(255,252,0,.35);
-
-      animation: logoAnimation 3s ease-in-out infinite;
-    }
-
-    @keyframes logoAnimation {
-      0%, 100% {
-        transform: rotate(-4deg) scale(1);
-      }
-
-      50% {
-        transform: rotate(4deg) scale(1.04);
-      }
-    }
-
-    h1 {
-      font-size: 32px;
-      font-weight: 800;
-
-      letter-spacing: -1px;
-
-      margin-bottom: 8px;
-    }
-
-    .yellow {
-      color: #fffc00;
-
-      text-shadow:
-        0 0 18px rgba(255,252,0,.35);
-    }
-
-    .subtitle {
-      color: #a7a7a7;
-
-      font-size: 15px;
-
-      margin-bottom: 28px;
-    }
-
-    /* البطاقة */
-    .card {
-      padding: 20px;
-
-      border-radius: 28px;
-
-      background:
+.card{
+    position:relative;
+    padding:35px 25px;
+    border-radius:28px;
+    background:
         linear-gradient(
-          145deg,
-          rgba(255,255,255,.09),
-          rgba(255,255,255,.035)
+            145deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.025)
         );
+    border:1px solid rgba(255,255,255,.10);
+    text-align:center;
+    transition:.4s;
+    overflow:hidden;
+}
 
-      border: 1px solid rgba(255,255,255,.10);
+.card::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    background:#fffc00;
+    filter:blur(100px);
+    opacity:.07;
+    top:-100px;
+    right:-80px;
+}
 
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+.card:hover{
+    transform:translateY(-8px);
+    border-color:#fffc00;
+    box-shadow:0 20px 60px rgba(255,252,0,.10);
+}
 
-      box-shadow:
-        0 20px 60px rgba(0,0,0,.45);
+.card.featured{
+    border-color:rgba(255,252,0,.65);
+}
+
+.promo{
+    position:absolute;
+    top:0;
+    right:0;
+    background:#fffc00;
+    color:#000;
+    padding:9px 16px;
+    border-radius:0 0 0 18px;
+    font-size:11px;
+    font-weight:900;
+}
+
+.card h3{
+    font-size:25px;
+    margin-bottom:20px;
+}
+
+.price{
+    color:#fffc00;
+    font-size:38px;
+    font-weight:900;
+}
+
+.old{
+    color:#666;
+    font-size:17px;
+    text-decoration:line-through;
+    margin-top:5px;
+}
+
+.details{
+    color:#aaa;
+    line-height:1.7;
+    margin:24px 0;
+    font-size:14px;
+}
+
+/* ADVANTAGES */
+.advantages{
+    max-width:1050px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.advantage{
+    padding:28px 20px;
+    border-radius:22px;
+    text-align:center;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.icon{
+    font-size:34px;
+    margin-bottom:14px;
+}
+
+.advantage h3{
+    margin-bottom:9px;
+}
+
+.advantage p{
+    color:#888;
+    line-height:1.6;
+    font-size:14px;
+}
+
+/* CONTACT */
+.contact{
+    max-width:800px;
+    margin:auto;
+}
+
+.contact-box{
+    text-align:center;
+    padding:40px 20px;
+    border-radius:28px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+}
+
+.phone{
+    color:#fffc00;
+    font-size:24px;
+    font-weight:800;
+    margin:12px 0 25px;
+}
+
+.socials{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.social{
+    padding:13px 18px;
+    border-radius:13px;
+    text-decoration:none;
+    color:#fff;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    transition:.3s;
+}
+
+.social:hover{
+    color:#fffc00;
+    border-color:#fffc00;
+}
+
+/* WHATSAPP */
+.whatsapp{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-size:27px;
+    background:#25D366;
+    color:#fff;
+    box-shadow:0 10px 35px rgba(37,211,102,.30);
+    z-index:999;
+    animation:wa 2.5s infinite;
+}
+
+@keyframes wa{
+    50%{transform:scale(1.06)}
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px 20px;
+    color:#555;
+    font-size:12px;
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+/* MOBILE */
+@media(max-width:700px){
+
+    header{
+        padding:16px 5%;
     }
 
-    /* الأزرار */
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .hero h1{
+        letter-spacing:-2px;
     }
 
-    .link {
-      position: relative;
-
-      width: 100%;
-
-      min-height: 62px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 12px;
-
-      text-decoration: none;
-
-      color: white;
-
-      font-size: 17px;
-      font-weight: 700;
-
-      border-radius: 18px;
-
-      background:
-        rgba(255,255,255,.07);
-
-      border: 1px solid
-        rgba(255,255,255,.10);
-
-      overflow: hidden;
-
-      transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        background .18s ease;
+    .hero p{
+        font-size:15px;
     }
 
-    /* لمعان */
-    .link::before {
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-      left: -100%;
-
-      width: 60%;
-      height: 100%;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          rgba(255,255,255,.16),
-          transparent
-        );
-
-      transform: skewX(-20deg);
-
-      transition: .6s;
+    section{
+        padding:70px 20px;
     }
 
-    .link:hover::before {
-      left: 140%;
+    .pricing{
+        grid-template-columns:1fr;
     }
 
-    .link:active {
-      transform: scale(.96);
+    .advantages{
+        grid-template-columns:1fr;
     }
 
-    .link:hover {
-      transform: translateY(-2px);
-
-      background:
-        rgba(255,252,0,.10);
-
-      border-color:
-        rgba(255,252,0,.35);
-
-      box-shadow:
-        0 10px 30px rgba(255,252,0,.10);
+    .title h2{
+        font-size:31px;
     }
 
-    .icon {
-      font-size: 25px;
+    .card{
+        padding:35px 20px;
     }
-
-    /* Snapchat */
-    .snapchat {
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,252,0,.16),
-          rgba(255,255,255,.05)
-        );
-
-      border-color:
-        rgba(255,252,0,.35);
-    }
-
-    /* WhatsApp */
-    .whatsapp:hover {
-      border-color: rgba(37,211,102,.55);
-
-      background:
-        rgba(37,211,102,.10);
-
-      box-shadow:
-        0 10px 30px rgba(37,211,102,.12);
-    }
-
-    /* النص السفلي */
-    .footer {
-      margin-top: 22px;
-
-      color: #686868;
-
-      font-size: 12px;
-    }
-
-    .verified {
-      color: #fffc00;
-      font-size: 13px;
-    }
-
-    /* دخول العناصر */
-    .animate {
-      animation: appear .7s ease both;
-    }
-
-    .delay1 {
-      animation-delay: .1s;
-    }
-
-    .delay2 {
-      animation-delay: .2s;
-    }
-
-    .delay3 {
-      animation-delay: .3s;
-    }
-
-    .delay4 {
-      animation-delay: .4s;
-    }
-
-    @keyframes appear {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* الشاشات الصغيرة */
-    @media (max-width: 380px) {
-
-      .page {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      .logo {
-        width: 90px;
-        height: 90px;
-        font-size: 31px;
-      }
-
-      .link {
-        min-height: 58px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <!-- الخلفية -->
-  <div class="background">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-    <div class="orb three"></div>
-  </div>
+<div class="bg">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+</div>
 
 
-  <main class="page">
+<!-- HEADER -->
+<header>
 
-    <!-- الشعار -->
-    <div class="logo animate">
-      S+
+    <div class="logo">
+        Snap+ <span>Services</span>
+    </div>
+
+    <div class="status">
+        ● OFFICIAL
+    </div>
+
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="snap-icon">
+            👻
+        </div>
+
+        <h1>
+            Snap+ <span>Premium</span>
+        </h1>
+
+        <p>
+            Découvrez nos offres Snapchat+ avec un service
+            simple, direct et une garantie pendant toute
+            la durée de votre abonnement.
+        </p>
+
+        <div class="buttons">
+
+            <a href="#offres" class="btn primary">
+                Voir les offres
+            </a>
+
+            <a href="#contact" class="btn secondary">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- OFFERS -->
+<section id="offres">
+
+    <div class="title">
+
+        <h2>Snap+ Services</h2>
+
+        <p>
+            Choisissez votre abonnement
+        </p>
+
     </div>
 
 
-    <!-- العنوان -->
-    <h1 class="animate delay1">
-      <span class="yellow">Snap+</span> Services
-    </h1>
-
-    <p class="subtitle animate delay2">
-      جميع روابطنا الرسمية
-      <span class="verified">✓</span>
-    </p>
+    <div class="pricing">
 
 
-    <!-- الروابط -->
-    <section class="card animate delay2">
+        <!-- MONTH -->
+        <div class="card">
 
-      <div class="links">
+            <h3>👻 1 Mois</h3>
 
-        <!-- Snapchat -->
-        <a
-          class="link snapchat"
-          href="https://snapchat.com/t/VBO4Ft6Y"
-          target="_blank"
-          rel="noopener"
-        >
-          <span class="icon">👻</span>
-          <span>Snapchat</span>
-        </a>
+            <div class="price">
+                800 DA
+            </div>
 
+            <div class="details">
+                Accès Snapchat+ pendant 1 mois.
+            </div>
 
-        <!-- Instagram -->
-        <a
-          class="link"
-          href="https://www.instagram.com/x_islam_msd/"
-          target="_blank"
-          rel="noopener"
-        >
-          <span class="icon">📸</span>
-          <span>Instagram</span>
-        </a>
+            <a href="#contact" class="btn secondary">
+                Commander
+            </a>
+
+        </div>
 
 
-        <!-- TikTok -->
-        <a
-          class="link"
-          href="https://www.tiktok.com/@islam_msd_22"
-          target="_blank"
-          rel="noopener"
-        >
-          <span class="icon">🎵</span>
-          <span>TikTok</span>
-        </a>
+        <!-- YEAR -->
+        <div class="card featured">
 
+            <div class="promo">
+                🔥 PROMO
+            </div>
 
-        <!-- WhatsApp -->
-        <a
-          class="link whatsapp"
-          href="https://wa.me/213708503004"
-          target="_blank"
-          rel="noopener"
-        >
-          <span class="icon">💬</span>
-          <span>WhatsApp</span>
-        </a>
+            <h3>🔥 1 Année</h3>
 
-      </div>
+            <div class="old">
+                3000 DA
+            </div>
 
-    </section>
+            <div class="price">
+                2500 DA
+            </div>
 
+            <div class="details">
 
-    <div class="footer animate delay4">
-      © 2026 Snap+ Services
+                🛡️ Garantie pendant toute la durée
+                de l’abonnement.
+
+                <br><br>
+
+                🤝 Service en main propre.
+
+                <br><br>
+
+                📱 Votre compte doit être ouvert
+                sur notre téléphone ou sur votre
+                téléphone Android.
+
+            </div>
+
+            <a href="#contact" class="btn primary">
+                Commander
+            </a>
+
+        </div>
+
     </div>
 
-  </main>
+</section>
+
+
+<!-- ADVANTAGES -->
+<section>
+
+    <div class="title">
+
+        <h2>Nos avantages</h2>
+
+        <p>
+            Un service simple et direct
+        </p>
+
+    </div>
+
+
+    <div class="advantages">
+
+        <div class="advantage">
+
+            <div class="icon">🛡️</div>
+
+            <h3>Garantie</h3>
+
+            <p>
+                Garantie pendant toute la durée
+                de l’abonnement.
+            </p>
+
+        </div>
+
+
+        <div class="advantage">
+
+            <div class="icon">🤝</div>
+
+            <h3>Service en main propre</h3>
+
+            <p>
+                Un service direct et accompagné.
+            </p>
+
+        </div>
+
+
+        <div class="advantage">
+
+            <div class="icon">📱</div>
+
+            <h3>Android</h3>
+
+            <p>
+                Votre compte doit être ouvert
+                sur notre téléphone ou votre
+                téléphone Android.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+
+    <div class="contact">
+
+        <div class="title">
+
+            <h2>Contactez-nous</h2>
+
+            <p>
+                Nous sommes disponibles directement
+            </p>
+
+        </div>
+
+
+        <div class="contact-box">
+
+            <h3>
+                Snap+ Services
+            </h3>
+
+            <div class="phone">
+                0798503004
+            </div>
+
+
+            <div class="socials">
+
+                <a
+                    href="https://snapchat.com/t/JaXhmLrF"
+                    target="_blank"
+                    class="social">
+                    👻 Snapchat
+                </a>
+
+
+                <a
+                    href="https://www.instagram.com/x_islam_msd?stkn=MXVpdWpxMTNwNzlleg%3D%3D&utm_source=qr"
+                    target="_blank"
+                    class="social">
+                    📸 Instagram
+                </a>
+
+
+                <a
+                    href="https://wa.me/213798503004"
+                    target="_blank"
+                    class="social">
+                    💬 WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FLOATING WHATSAPP -->
+<a
+    href="https://wa.me/213798503004"
+    target="_blank"
+    class="whatsapp">
+    💬
+</a>
+
+
+<footer>
+    © 2026 Snap+ Services — Tous droits réservés.
+</footer>
+
 
 </body>
 </html>
